@@ -1,6 +1,6 @@
 ![firekeep-logo](firekeep-logo.png)
 
-Firekeep is an opinionated Flask app that follows SQLModel-like/FastAPI-like implementation of CQRS pattern. This is for educational purposes only.
+Firekeep is a Flask app that follows SQLModel-like/FastAPI-like implementation of CQRS pattern. This is for educational purposes only.
 
 
 ## Motivation

@@ -301,6 +301,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "types-werkzeug"
+version = "1.0.5"
+description = "Typing stubs for Werkzeug"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "typing-extensions"
 version = "3.10.0.2"
 description = "Backported and Experimental Type Hints for Python 3.5+"
@@ -330,7 +338,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "8c82f230604325935800d22fd26b248b91aea1cb7008c727d46dd6433aec6db3"
+content-hash = "d0009e32b1f847c512cdda66d9a515f3dbdd5bdcc21b97531f20aad96cd91d69"
 
 [metadata.files]
 atomicwrites = [
@@ -568,6 +576,10 @@ toml = [
 tomli = [
     {file = "tomli-1.2.1-py3-none-any.whl", hash = "sha256:8dd0e9524d6f386271a36b41dbf6c57d8e32fd96fd22b6584679dc569d20899f"},
     {file = "tomli-1.2.1.tar.gz", hash = "sha256:a5b75cb6f3968abb47af1b40c1819dc519ea82bcc065776a866e8d74c5ca9442"},
+]
+types-werkzeug = [
+    {file = "types-Werkzeug-1.0.5.tar.gz", hash = "sha256:f6216ab0e0211fe73ebdb4ae0e414113d4d8a2f783a15c2d8550e06d0fd8e7f9"},
+    {file = "types_Werkzeug-1.0.5-py3-none-any.whl", hash = "sha256:428a07d828a2c3dc6979b2ef2a79345ab33c54e070d5af319c038e6ccdfd3387"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.2-py2-none-any.whl", hash = "sha256:d8226d10bc02a29bcc81df19a26e56a9647f8b0a6d4a83924139f4a8b01f17b7"},
