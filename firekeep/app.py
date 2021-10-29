@@ -1,7 +1,7 @@
 import functools
 from typing import Any, Callable, Dict, Optional, Type
 
-from flask import Flask, abort, jsonify, request
+from flask import Flask, abort, after_this_request, json, jsonify, request
 from flask.wrappers import Response
 from flask_cors import CORS
 from pydantic import BaseModel, ValidationError
@@ -17,8 +17,9 @@ class RocketEngineBase(BaseModel):
     thrust_to_weight_ratio: int
 
 
-class RocketEngineCreate(RocketEngineBase):
-    pass
+class RocketEngineNew(RocketEngineBase):
+    class Config:
+        extra = "forbid"
 
 
 class RocketEngineResponse(RocketEngineBase):
@@ -32,16 +33,22 @@ def keep(
     def validate(func) -> Callable:
         @functools.wraps(func)
         def validate_with_pydantic_wrapper(*args, **kwargs):
-            request_data = request.json
             try:
                 if request_model:
-                    request_model(**request_data)
+                    request_model(**request.json)
+
+                @after_this_request
+                def validate_response(response):
+                    if isinstance(response.json, list):
+                        return response
+                    else:
+                        response_validated = response_model(**response.json)
+                        return jsonify(response_validated.dict())
+
+                return func(*args, **kwargs)
+
             except ValidationError as e:
                 return abort(400, description=e)
-            else:
-                response_data = func(*args, **kwargs)
-                response_validated = response_model(**response_data)
-                return jsonify(response_validated.dict())
 
         return validate_with_pydantic_wrapper
 
@@ -51,22 +58,32 @@ def keep(
 @app.get("/api/rocket-engines")
 @keep(response_model=RocketEngineResponse)
 def get_rocket_engines():
-    return {
-        "name": "RD-180",
-        "manufacturer": "NPO Energomash",
-        "thrust_to_weight_ratio": 78,
-        "id": 2020,
-        "country": "Russia",
-    }
+
+    return jsonify(
+        [
+            {
+                "name": "RD-180",
+                "manufacturer": "NPO Energomash",
+                "thrust_to_weight_ratio": 78,
+                "id": 2020,
+                "country": "Russia",
+                "gibberish": 12312312,
+            },
+            {
+                "name": "RD-180",
+                "manufacturer": "NPO Energomash",
+                "thrust_to_weight_ratio": 78,
+                "id": 2020,
+                "country": "Russia",
+                "gibberish": 12312312,
+            },
+        ]
+    )
 
 
 @app.post("/api/rocket-engines")
-@keep(response_model=RocketEngineResponse, request_model=RocketEngineCreate)
+@keep(response_model=RocketEngineResponse, request_model=RocketEngineNew)
 def create_rocket_engine():
-    return {
-        "name": "raptor",
-        "manufacturer": "spacex",
-        "thrust_to_weight_ratio": 107,
-        "id": 2021,
-        "country": "USA",
-    }
+    request.json["id"] = 951
+
+    return request.json
