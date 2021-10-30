@@ -1,6 +1,3 @@
-import functools
-from typing import Any, Callable, Dict, Optional, Type
-
 from flask import Flask, abort, jsonify, request
 from flask.wrappers import Response
 from flask_cors import CORS
@@ -16,22 +13,36 @@ cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 @keep(response_model=TenantResponse)
 def get_tenant_list():
 
-    return jsonify(
-        [
-            {
-                "first_name": "jefford",
-                "last_name": "librado",
-                "student_id_number": 951,
-                "id": 1,
-            },
-            {
-                "first_name": "eds",
-                "last_name": "decena",
-                "student_id_number": 753,
-                "id": 2,
-            },
-        ]
-    )
+    tenants = [
+        {
+            "first_name": "jefford",
+            "last_name": "librado",
+            "student_id_number": 951,
+            "id": 1,
+        },
+        {
+            "first_name": "eds",
+            "last_name": "decena",
+            "student_id_number": 753,
+            "id": 2,
+        },
+    ]
+
+    return jsonify(tenants)
+
+
+@app.get("/api/tenants/<int:id>")
+@keep(response_model=TenantResponse)
+def get_tenant(id: int):
+
+    tenant = {
+        "first_name": "wins",
+        "last_name": "sabellona",
+        "student_id_number": 963,
+        "id": id,
+    }
+
+    return jsonify(tenant)
 
 
 @app.post("/api/rooms")
