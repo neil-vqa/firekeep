@@ -71,13 +71,13 @@ def keep(
                 def parse_response(response):
                     # check if response is a collection
                     if isinstance(response.json, list):
-                        response_as_list_validated: List[response_model] = []
-
                         response_as_list_parsed = parse_obj_as(
                             List[response_model], response.json
                         )
-                        for item in response_as_list_parsed:
-                            response_as_list_validated.append(item.dict())
+
+                        response_as_list_validated = [
+                            item.dict() for item in response_as_list_parsed
+                        ]
 
                         return jsonify(response_as_list_validated)
                     else:
