@@ -1,4 +1,3 @@
-# from firekeep import __version__
 from firekeep.models import (
     MaximumNumberOfOccupantsReached,
     Room,
@@ -6,9 +5,6 @@ from firekeep.models import (
     assign_to_room,
 )
 import pytest
-
-# def test_version():
-# assert __version__ == '0.1.0'
 
 
 def test_assign_tenant_to_room():
