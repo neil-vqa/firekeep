@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Table, MetaData
+from sqlalchemy import Column, MetaData, Table
 from sqlalchemy.orm import registry, relationship
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String
@@ -26,7 +26,9 @@ tenant_table = Table(
     Column("room_id", Integer, ForeignKey("room.id")),
 )
 
-mapper_registry.map_iteratively(
-    Room, room_table, properties={"occupants": relationship(Tenant, backref="room")}
-)
-mapper_registry.map_iteratively(Tenant, tenant_table)
+
+def run_mappers():
+    mapper_registry.map_imperatively(
+        Room, room_table, properties={"occupants": relationship(Tenant, backref="room")}
+    )
+    mapper_registry.map_imperatively(Tenant, tenant_table)

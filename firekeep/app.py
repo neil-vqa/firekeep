@@ -1,9 +1,13 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+
+from firekeep import orm, services
+from firekeep.db_session import Session
 from firekeep.keep import RoomCreate, RoomResponse, TenantCreate, TenantResponse, keep
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+orm.run_mappers()
 
 
 @app.get("/api/tenants")
@@ -48,3 +52,17 @@ def create_room():
     request.json["id"] = 951
 
     return request.json
+
+
+@app.post("/api/assign")
+def assign_tenant():
+    try:
+        msg = services.assign_tenant_to_room(
+            request.json["room_number"],
+            request.json["room_id"],
+            request.json["tenant_id"],
+            Session(),
+        )
+        return jsonify(msg)
+    except Exception:
+        raise

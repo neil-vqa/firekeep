@@ -1,7 +1,7 @@
-from sqlalchemy import create_engine, engine
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import config
 
+from firekeep import config
 
-engine = create_engine(config.get_postgres_uri())
+engine = create_engine(config.get_sqlite_uri())
 Session = sessionmaker(engine)
