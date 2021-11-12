@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "firekeep"
 version = "0.1.0"
-description = "A Flask app that follows SQLModel-like/FastAPI-like implementation of CQRS pattern. For educational purposes only."
+description = "A Flask app that follows Domain-Driven Design, Repository, Service Layer, and CQRS patterns. For educational purposes only."
 authors = ["Neil Van <nvq.alino@gmail.com>"]
 license = "MIT"
 readme = "README.md"
@@ -20,6 +20,9 @@ isort = "^5.9.3"
 mypy = "^0.910"
 types-Werkzeug = "^1.0.5"
 autoflake = "^1.4"
+bandit = "^1.7.0"
+flake8 = "^4.0.1"
+safety = "^1.10.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
