@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Table
+from sqlalchemy import Column, Table, MetaData
 from sqlalchemy.orm import registry, relationship
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String
@@ -6,10 +6,11 @@ from sqlalchemy.sql.sqltypes import Integer, String
 from firekeep.models import Room, Tenant
 
 mapper_registry = registry()
+metadata_obj = MetaData()
 
 room_table = Table(
     "room",
-    mapper_registry.metadata,
+    metadata_obj,
     Column("id", Integer, primary_key=True),
     Column("room_number", String(8)),
     Column("max_capacity", Integer),
@@ -17,7 +18,7 @@ room_table = Table(
 
 tenant_table = Table(
     "tenant",
-    mapper_registry.metadata,
+    metadata_obj,
     Column("id", Integer, primary_key=True),
     Column("first_name", String(20)),
     Column("last_name", String(20)),
@@ -25,7 +26,6 @@ tenant_table = Table(
     Column("room_id", Integer, ForeignKey("room.id")),
 )
 
-mapper_registry.map_iteratively(Room, room_table)
 mapper_registry.map_iteratively(
     Room, room_table, properties={"occupants": relationship(Tenant, backref="room")}
 )
